@@ -1,14 +1,14 @@
-name: lab_7_00000_test
+name: lab_7_406787_test
 
 on:
   push:
     branches:
-      - main
-    
+      - lab_7/my_branch_406787
+
 jobs:
   build:
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
@@ -20,13 +20,12 @@ jobs:
 
     - name: Install libs for testing
       run: |
-        pip  install pytest 
-    
-    - name: prepare environemnt 
+        pip install pytest
+
+    - name: prepare environment
       run: |
-         cd ./Lab_7/env_0000 && python -m pip install -r requirements.txt
-      
+        cd ./env_406787 && python -m pip install -r requirements.txt
 
     - name: Run test
       run: |
-        cd ./Lab_7/env_0000 && pytest calculator_test.py
+        cd ./env_406787 && pytest calculator_test.py
