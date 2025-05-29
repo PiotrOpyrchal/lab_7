@@ -25,6 +25,128 @@ jobs:
     - name: prepare environment
       run: |
         cd ./env_406787 && python -m pip install -r requirements.txt
+#====================      
+  test_dodawanie:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.11'
+
+    - name: Install libs for testing
+      run: |
+        pip  install pytest 
+    
+    - name: prepare environemnt 
+      run: |
+        cd ./env_406787 && python -m pip install -r requirements.txt
+    
+    - name: Run test
+      run: |
+        cd ./env_406787 && pytest calculator_test.py::test_dodawanie  
+
+  #====================  
+  test_odejmowanie:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.11'
+
+    - name: Install libs for testing
+      run: |
+        pip  install pytest 
+    
+    - name: prepare environemnt 
+      run: |
+        cd ./env_406787 && python -m pip install -r requirements.txt
+    
+    - name: Run test
+      run: |
+        cd ./env_406787 && pytest calculator_test.py::test_odejmowanie
+  
+    #====================  
+  test_mnozenie:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.11'
+
+    - name: Install libs for testing
+      run: |
+        pip  install pytest 
+    
+    - name: prepare environemnt 
+      run: |
+        cd ./env_406787 && python -m pip install -r requirements.txt
+    
+    - name: Run test
+      run: |
+        cd ./env_406787 && pytest calculator_test.py::test_mnozenie
+  
+    #====================  
+  test_dzielenie:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.11'
+
+    - name: Install libs for testing
+      run: |
+        pip  install pytest 
+    
+    - name: prepare environemnt 
+      run: |
+        cd ./env_406787 && python -m pip install -r requirements.txt
+    
+    - name: Run test
+      run: |
+        cd ./env_406787 && pytest calculator_test.py::test_dzielenie
+
+  #====================  
+  test_new:
+    runs-on: ubuntu-latest
+    needs: [build, test_dodawanie, test_odejmowanie, test_mnozenie, test_dzielenie]
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.11'
+
+    - name: Install libs for testing
+      run: |
+        pip  install pytest 
+    
+    - name: prepare environemnt 
+      run: |
+        cd ./env_406787 && python -m pip install -r requirements.txt
+    
 
     - name: Run test
       run: |
