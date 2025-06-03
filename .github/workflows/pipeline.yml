@@ -10,12 +10,6 @@ env:
   TEST_TAG: ${{ vars.DOCKER_HUB_USERNAME_406787 }}/env_406787:test
   LATEST_TAG: ${{ vars.DOCKER_HUB_USERNAME_406787 }}/env_406787:latest
 
-# ograniczenie do katalogu ./main
-defaults:
-  run:
-    working-directory: ./main
-
-
 #testy jednostkowe
 jobs:
   unit-testy:
