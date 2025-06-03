@@ -7,8 +7,8 @@ on:
 
 # zmienne środowiskowe dla tagów obrazu Dockera
 env:
-  TEST_TAG: ${{ vars.DOCKER_HUB_USERNAME_406787 }}/env_406787:test
-  LATEST_TAG: ${{ vars.DOCKER_HUB_USERNAME_406787 }}/env_406787:latest
+  TEST_TAG: ${{ vars.DOCKER_HUB_USERNAME_406787 }}/env406787:test
+  LATEST_TAG: ${{ vars.DOCKER_HUB_USERNAME_406787 }}/env406787:latest
 
 #testy jednostkowe
 jobs:
