@@ -63,7 +63,7 @@ jobs:
     - name: Build Docker image for test
       uses: docker/build-push-action@v6  # build+load bez push
       with:
-        context: ./test_lab_8/main
+        context: ./test_lab_8
         file: ./test_lab_8/dockerfile
         load: true
         tags: ${{ env.TEST_TAG }}
