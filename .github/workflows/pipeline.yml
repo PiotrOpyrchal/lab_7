@@ -73,6 +73,10 @@ jobs:
       run: |
         python -m pip install pytest requests
 
+    - name: Run Docker
+      run: |
+        docker run -d -p 5000:5000 ${{ env.TEST_TAG }}
+
     - name: Run test
       run: |
         cd ./test_lab_8/main && pytest app_test.py
