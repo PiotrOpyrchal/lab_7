@@ -1,0 +1,123 @@
+name: lab_8_406787_test
+
+on:
+  push:
+    branches:
+      - lab_8/my_branch_406787
+
+# zmienne środowiskowe dla tagów obrazu Dockera
+env:
+  TEST_TAG: ${{ vars.DOCKER_HUB_USERNAME_406787 }}/env_406787:test
+  LATEST_TAG: ${{ vars.DOCKER_HUB_USERNAME_406787 }}/env_406787:latest
+
+# ograniczenie do katalogu ./main
+defaults:
+  run:
+    working-directory: ./main
+
+
+#testy jednostkowe
+jobs:
+  unit-testy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4 
+
+    - name: Set up Python and test libraries
+      uses: actions/setup-python@v5 
+      with:
+        python-version: '3.11'
+        cache: 'pip' 
+
+    - name: Install libs for testing
+      run: |
+        pip install pytest
+
+    - name: prepare environment
+      run: |
+        cd ./main && python -m pip install -r requirements.txt
+
+    - name: Run tests
+      run: |
+        cd ./main && pytest calculator_test.py
+
+# ---------------------------------------
+
+  funkcjonalne-testy:
+    runs-on: ubuntu-latest
+    needs: unit-testy
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    # logowanie do Docker Hub
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ vars.DOCKER_HUB_USERNAME_406787 }}
+        password: ${{ secrets.DOCKER_HUB_406787 }}
+    
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v3  # potrzebne dla Buildx
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3 
+
+    # dodano
+    - name: Build Docker image for test
+      uses: docker/build-push-action@v6  # build+load bez push
+      with:
+        context: ./main
+        file: ./main/dockerfile
+        load: true
+        tags: ${{ env.TEST_TAG }}
+
+    - name: prepare environment
+      run: |
+        cd ./main && python -m pip install -r requirements.txt
+
+    - name: Run test
+      run: |
+        cd ./main && pytest app_test.py
+
+    # czyszczenie po testach
+    - name: Stop and remove container
+      if: always()
+      run: |
+        docker stop kalkulator_test
+        docker rm kalkulator_test
+
+# ---------------------------------------
+
+  deployment:
+    runs-on: ubuntu-latest
+    needs: funkcjonalne-testy
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    ## all new
+    - name: Login to Docker Hub  # wymagane do pushowania obrazu
+      uses: docker/login-action@v3
+      with:
+        username: ${{ vars.DOCKER_HUB_USERNAME_406787 }}
+        password: ${{ secrets.DOCKER_HUB_406787 }}
+
+    - name: Set up QEMU 
+      uses: docker/setup-qemu-action@v3
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    # budowanie i wypchnięcie obrazu
+    - name: Build and Push Docker image
+      uses: docker/build-push-action@v6
+      with:
+        context: ./main
+        file: ./main/dockerfile
+        push: true
+        tags: ${{ env.LATEST_TAG }}
