@@ -59,22 +59,23 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3 
 
-    # dodano
+
     - name: Build Docker image for test
       uses: docker/build-push-action@v6  # build+load bez push
       with:
-        context: ./main
-        file: ./main/dockerfile
+        context: ./test_lab_8/main
+        file: ./test_lab_8/dockerfile
         load: true
         tags: ${{ env.TEST_TAG }}
+        push: false
 
     - name: prepare environment
       run: |
-        cd ./main && python -m pip install -r requirements.txt
+        python -m pip install pytest requests
 
     - name: Run test
       run: |
-        cd ./main && pytest app_test.py
+        cd ./test_lab_8/main && pytest app_test.py
 
     # czyszczenie po testach
     - name: Stop and remove container
