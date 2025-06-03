@@ -30,11 +30,11 @@ jobs:
 
     - name: prepare environment
       run: |
-        cd ./main && python -m pip install -r requirements.txt
+        cd ./test_lab_8 && python -m pip install -r requirements.txt
 
     - name: Run tests
       run: |
-        cd ./main && pytest calculator_test.py
+        cd ./test_lab_8/main && pytest calculator_test.py
 
 # ---------------------------------------
 
