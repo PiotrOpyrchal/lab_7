@@ -91,11 +91,11 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    ## all new
-    - name: Login to Docker Hub  # wymagane do pushowania obrazu
+
+    - name: Login to Docker Hub 
       uses: docker/login-action@v3
       with:
-        username: ${{ vars.DOCKER_HUB_USERNAME_406787 }}
+        username: ${{ secrets.DOCKER_HUB_USERNAME_406787 }}
         password: ${{ secrets.DOCKER_HUB_406787 }}
 
     - name: Set up QEMU 
@@ -108,7 +108,7 @@ jobs:
     - name: Build and Push Docker image
       uses: docker/build-push-action@v6
       with:
-        context: ./main
-        file: ./main/dockerfile
+        context: ./test_lab_8
+        file: ./test_lab_8/dockerfile
         push: true
         tags: ${{ env.LATEST_TAG }}
