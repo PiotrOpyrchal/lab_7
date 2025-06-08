@@ -12,6 +12,6 @@ variable "resource_group_name" {
 
 variable "my_public_ip" {
   type        = string
-  default     = "<Your_PUBLIC_IP>/32"
+  default     = "84.40.152.195/32"
   description = "Your public IP address in CIDR notation (e.g., <YOUR_PUBLIC_IP>/32)."
 }
